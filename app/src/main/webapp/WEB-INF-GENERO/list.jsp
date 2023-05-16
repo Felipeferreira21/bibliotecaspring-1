@@ -10,18 +10,16 @@
     <body>
         <div class="container">
             <h1>Livros</h1>
-            <a href="/insert" class="btn btn-primary">Novo Livro</a>
+            <a href="/insert" class="btn btn-primary">Novo Genero</a>
             <table class="table">
                 <tr>
                     <th>Id</th>
-                    <th>Título</th>
-                    <th>Insb;</th>
+                    <th>Nome</th>
                 </tr>
-                <c:forEach var="item" items="${livros}">
+                <c:forEach var="item" items="${generos}">
                     <tr>
                         <td>${item.id}</td>
-                        <td>${item.titulo}</td>
-                        <td>${item.isbn}</td>
+                        <td>${item.nome}</td>
                         <td>
                             <a href="/update?id=${item.id}" class="btn btn-warning">Editar</a>
                             <a href="/delete?id=${item.id}" class="btn btn-danger">Excluir</a>
