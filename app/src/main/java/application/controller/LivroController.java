@@ -11,22 +11,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import application.model.Livro;
 import application.model.LivroRepository;
+import application.model.GeneroRepository;
 
 @Controller
+@RequestMapping("/livro")
 public class LivroController {
 
     @Autowired
     private LivroRepository livroRepo;
 
-    @RequestMapping("/livro")
+    @Autowired
+    private GeneroRepository generoRepo;
+
+    @RequestMapping("/list")
     public String list(Model model) {
         model.addAttribute("livros", livroRepo.findAll());
-        return "WEB-INF/list.jsp";
+        return "list";
     }
 
     @RequestMapping("/insert")
-    public String insert() {
-        return "WEB-INF/insert.jsp";
+    public String insert(Model model) {
+        model.addAttribute("generos", generoRepo.findAll());
+        return "insert";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -37,7 +43,7 @@ public class LivroController {
 
         livroRepo.save(livro);
 
-        return "redirect:/livro";
+        return "redirect:/livro/list";
     }
 
     @RequestMapping("/update")
@@ -45,24 +51,26 @@ public class LivroController {
         Optional<Livro> livro = livroRepo.findById(id);
 
         if(!livro.isPresent()) {
-            return "redirect:/livro";
+            return "redirect:/livro/list";
         }
 
         model.addAttribute("livro", livro.get());
-        return "WEB-INF/update.jsp";
+        return "update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(
         @RequestParam("titulo") String titulo,
-        @RequestParam("id") int id
+        @RequestParam("id") int id,
+        @RequestParam("isbn") String isbn
     ) {
         Optional<Livro> livro = livroRepo.findById(id);
         if(!livro.isPresent()) {
-            return "redirect:/livro";
+            return "redirect:/livro/list";
         }
 
         livro.get().setTitulo(titulo);
+        livro.get().setIsbn(isbn);
 
         livroRepo.save(livro.get());
         return "redirect:/livro";
