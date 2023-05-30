@@ -5,24 +5,25 @@
     <head>
         <meta charset="UTF-8" />
         <title>Generos</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
         <div class="container">
             <h1>Generos</h1>
-            <a href="/insert" class="btn btn-primary">Novo Genero</a>
+            <a href="/genero/insert" class="btn btn-primary">Novo Gênero</a>
             <table class="table">
                 <tr>
                     <th>Id</th>
                     <th>Nome</th>
+                    <th>&nbsp;</th>
                 </tr>
                 <c:forEach var="item" items="${generos}">
                     <tr>
                         <td>${item.id}</td>
                         <td>${item.nome}</td>
                         <td>
-                            <a href="genero/update?id=${item.id}" class="btn btn-warning">Editar</a>
-                            <a href="genero/delete?id=${item.id}" class="btn btn-danger">Excluir</a>
+                            <a href="/genero/update?id=${item.id}" class="btn btn-warning">Editar</a>
+                            <a href="/genero/delete?id=${item.id}" class="btn btn-danger">Excluir</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -30,4 +31,3 @@
         </div>
     </body>
 </html>
-

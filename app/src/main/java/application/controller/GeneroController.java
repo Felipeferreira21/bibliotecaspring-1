@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,19 +15,18 @@ import application.model.GeneroRepository;
 @Controller
 @RequestMapping("/genero")
 public class GeneroController {
-
     @Autowired
     private GeneroRepository generoRepo;
 
     @RequestMapping("/list")
     public String list(Model model) {
         model.addAttribute("generos", generoRepo.findAll());
-        return "WEB-INF-GENERO/list";
+        return "/genero/list";
     }
 
     @RequestMapping("/insert")
     public String insert() {
-        return "WEB-INF-GENERO/insert";
+        return "/genero/insert";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -36,53 +36,51 @@ public class GeneroController {
 
         generoRepo.save(genero);
 
-        return "redirect:/WEB-INF-GENERO/list";
+        return "redirect:/genero/list";
     }
 
-    @RequestMapping("/update")
+    @RequestMapping("update")
     public String update(Model model, @RequestParam("id") int id) {
         Optional<Genero> genero = generoRepo.findById(id);
 
         if(genero.isPresent()) {
             model.addAttribute("genero", genero.get());
-            return "redirect:/WEB-INF-GENERO/list";
+            return "/genero/update";    
         }
-        return "WEB-INF-GENERO/update";
+
+        return "redirect:/genero/list";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(
-        @RequestParam("nome") String nome,
-        @RequestParam("id") int id) {
+        @RequestParam("id") int id,
+        @RequestParam("nome") String nome) {
         Optional<Genero> genero = generoRepo.findById(id);
 
         if(genero.isPresent()) {
             genero.get().setNome(nome);
-        
-            generoRepo.save(genero.get());
+            
+            generoRepo.save(genero.get());   
         }
 
-        generoRepo.save(genero.get());
-        return "redirect:/WEB-INFO-GENERO/list";
+        return "redirect:/genero/list";
     }
 
     @RequestMapping("/delete")
     public String delete(Model model, @RequestParam("id") int id) {
         Optional<Genero> genero = generoRepo.findById(id);
 
-        if(!genero.isPresent()) {
+        if(genero.isPresent()) {
             model.addAttribute("genero", genero.get());
-            return "redirect:/WEB-INFO-GENERO/delete";
+            return "/genero/delete";    
         }
-        
-  
 
-        return "WEB-INF-GENERO/list";
+        return "redirect:/genero/list";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") int id) {
         generoRepo.deleteById(id);
-        return "redirect:/WEB-INFO-GENERO/list";
+        return "redirect:/genero/list";
     }
 }

@@ -11,13 +11,13 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="generos")
-public class Genero{
+public class Genero {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String nome;
 
-    @OneToMany
+    @OneToMany(mappedBy = "genero")
     private Set<Livro> livros;
 
     public int getId() {
@@ -38,5 +38,4 @@ public class Genero{
     public void setLivros(Set<Livro> livros) {
         this.livros = livros;
     }
-
-} 
+}
